@@ -1,4 +1,4 @@
-package personal.game;
+package personal.game.graphics;
 
 import java.util.Random;
 

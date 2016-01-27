@@ -1,0 +1,95 @@
+{
+	spritesheet: {
+		image: "overworld.png",
+	},
+	tiles: {
+		grass_ul: {
+			c: 0, r: 5,
+			passable: true,
+		},
+		grass_u: {
+			c: 1, r: 5,
+			passable: true,
+		},
+		grass_ur: {
+			c: 2, r: 5,
+			passable: true,
+		},
+		grass_l: {
+			c: 0, r: 6,
+			passable: true,
+		},
+		grass: {
+			c: 1, r: 6,
+			passable: true,
+		},
+		grass_r: {
+			c: 2, r: 6,
+			passable: true,
+		},
+		grass_dl: {
+			c: 0, r: 7,
+			passable: true,
+		},
+		grass_d: {
+			c: 1, r: 7,
+			passable: true,
+		},
+		grass_dr: {
+			c: 2, r: 7,
+			passable: true,
+		},
+		grass_h: {
+			c: 17, r: 13,
+			passable: true,
+		},
+		path: {
+			c: 16, r: 13,
+			passable: true,
+		},
+		fence: {
+			c: 10, r: 13,
+			passable: false,
+		},
+		tallgrass: {
+			c: 13, r: 9,
+			passable: false,
+		},
+		
+		tree_ul: {
+			c: 8, r: 7,
+			passable: false,
+		},
+		tree_ur: {
+			c: 9, r: 7,
+			passable: false,
+		},
+		tree_dl: {
+			c: 8, r: 8,
+			passable: false,
+		},
+		tree_dr: {
+			c: 9, r: 8,
+			passable: false,
+		},
+		
+		house_roof_blue: {
+			c: 8, r: 2,
+			passable: false,
+		},
+		house_window: {
+			c: 1, r:2,
+			passable:false,
+		},
+		house_door: {
+			c: 2, r:2,
+			passable:true,
+		},
+		
+		
+		flowers: { // Animated in the future.
+			c: 16, r: 15,
+			passable: true,
+		},
+	},
+}

@@ -1,0 +1,18 @@
+{
+	tileset: {
+		file: "overworld.tileset.json",		
+	},
+	width: 10,
+	height: 8,
+	base_tile: grass, // Hack.
+	tiles: [
+		[tree_dr, grass_l, grass_h, grass_h, grass_h, grass_h, grass_h, grass_h, grass_h, grass],
+		[grass_u,grass_r,fence,fence,fence,fence,fence,fence,fence,grass_l],
+		[grass,grass_r,fence,tallgrass,tallgrass,tallgrass,tallgrass,tree_ul,tree_ur,tallgrass],	
+		[grass,flowers,fence,tallgrass,house_roof_blue,house_roof_blue,house_roof_blue,tree_dl,tree_dr,tallgrass],
+		[grass,grass_r,fence,tallgrass,house_window,house_door,house_window,tallgrass,fence,grass_l],
+		[grass,grass_r,fence,tallgrass,tallgrass,path,tallgrass,tallgrass,fence,grass_l],
+		[grass_d,grass_dr,fence,fence,fence,path,fence,fence,fence,grass_l],
+		[path,path,path,path,path,path,grass_ul,grass_u,grass_u,grass],
+	],
+}
