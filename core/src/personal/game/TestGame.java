@@ -19,12 +19,16 @@ public class TestGame extends ApplicationAdapter {
 	int tileCols = 10;
 	int tileRows = 9;
 	
+	int VIEW_WIDTH = tileWidth * tileCols;
+	int VIEW_HEIGHT = tileHeight * tileRows;
+	
 	OrthographicCamera camera;
 	
 	@Override
 	public void create () {
-		
-		camera = new OrthographicCamera();
+		camera = new OrthographicCamera(VIEW_WIDTH, VIEW_HEIGHT);
+		camera.position.set(VIEW_WIDTH / 2, VIEW_HEIGHT / 2, 0);
+		camera.update();
 		
 		batch = new SpriteBatch();
 		
@@ -38,12 +42,14 @@ public class TestGame extends ApplicationAdapter {
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(0.0f, 0.9f, 0, 1);
+
+		camera.update();
+		batch.setProjectionMatrix(camera.combined);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		//batch.enableBlending();
 		batch.begin();
-		batch.draw(img,0,0,640,480);
-		//character.draw(batch);
+		batch.draw(img,0,0,VIEW_WIDTH, VIEW_HEIGHT);
+		character.draw(batch);
 		batch.end();
 	}
 }
