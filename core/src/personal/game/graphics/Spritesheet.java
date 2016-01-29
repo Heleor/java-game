@@ -3,24 +3,33 @@ package personal.game.graphics;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
  * Loads and parses a spritesheet.
  */
 public class Spritesheet {
 	public class Tile {
+		final TextureRegion region;
 		final int x,y,w,h;
 		
-		public Tile(int x, int y, int w, int h) {
+		public Tile(TextureRegion region, int x, int y, int w, int h) {
+			this.region = region;
 			this.x = x; this.y = y; this.w = w; this.h = h;
 		}
 		
 		public void drawTo(Pixmap target, int x, int y) {
 			target.drawPixmap(image, x, y, this.x, this.y, this.w, this.h);
 		}
+
+		public TextureRegion getRegion() {
+			return region;
+		}
 	}
 	
 	private final Pixmap image;
+	private final Texture texture;
 	private Tile[][] tiles; // tiles[row][col]
 	
 	// TODO: Does this change?
@@ -35,6 +44,7 @@ public class Spritesheet {
 	
 	public Spritesheet(Pixmap image) {
 		this.image = image;
+		this.texture = new Texture(image);
 		
 		populate();
 	}
@@ -50,7 +60,9 @@ public class Spritesheet {
 			// 0 -> 1, 1-> 1 + 16 + 1, 2 -> 1 + 16 + 1 + 16 + 1
 			int x = col * jumpX + paddingX;
 			int y = row * jumpY + paddingY;
-			tiles[col][row] = new Tile(x,y,tileWidth,tileHeight);
+			
+			TextureRegion region = new TextureRegion(texture, x, y, tileWidth, tileHeight);
+			tiles[col][row] = new Tile(region, x,y,tileWidth,tileHeight);
 		}}
 	}
 	

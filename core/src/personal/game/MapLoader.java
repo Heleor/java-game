@@ -31,8 +31,6 @@ public class MapLoader {
 		// (for human readability) and column-major order in the code (for x/y confusion)
 		Tile[][] tiles = new Tile[raw.width][raw.height];
 		for (int row = 0; row < raw.height; row++) {
-			
-			System.out.println("Row " + row);
 			// If the row is not defined
 			if (raw.tiles.length <= row) {
 				for (int col = 0; col < raw.width; col++) {
@@ -40,7 +38,6 @@ public class MapLoader {
 				}
 			} else {
 				for (int col = 0; col < raw.width; col++) {
-					System.out.println("Col " + col);
 					if (raw.tiles[row].length <= col) {
 						tiles[col][row] = tileset.tiles.get(raw.base_tile);
 					} else {
