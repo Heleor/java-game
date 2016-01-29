@@ -17,7 +17,7 @@ public class TestGame extends ApplicationAdapter {
 	int tileHeight = 16;
 	
 	int tileCols = 10;
-	int tileRows = 9;
+	int tileRows = 8;
 	
 	int VIEW_WIDTH = tileWidth * tileCols;
 	int VIEW_HEIGHT = tileHeight * tileRows;
@@ -38,10 +38,23 @@ public class TestGame extends ApplicationAdapter {
 		character = new Character(TilesetLoader.load(Gdx.files.internal("link.tileset.json")));
 		character.setAnimation("stand");
 	}
+	
+	public void update() {
+		character.x++;
+		if (character.x > VIEW_WIDTH) {
+			character.x = -16;
+			character.y += 16;
+			if (character.y >= VIEW_HEIGHT) {
+				character.y = 0;
+			}
+		}
+	}
 
 	@Override
-	public void render () {
-		Gdx.gl.glClearColor(0.0f, 0.9f, 0, 1);
+	public void render() {
+		update();
+		
+		Gdx.gl.glClearColor(1.0f, 0, 0, 1);
 
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
