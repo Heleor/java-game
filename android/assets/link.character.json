@@ -1,0 +1,33 @@
+{
+	spritesheet: {
+		image: "link_sprite_noborder.png",
+	},
+	frames: {
+		stand: {
+			c:4, r:0,
+		},
+		walk_l_0: {
+			c:2, r:0,
+		},
+		walk_l_1: {
+			c:3, r:0,
+		},
+	}
+	animations: {
+		stand: {
+			repeat: false,
+			frames: [stand],
+		},
+		walk_r: {
+			phase: 8,
+			repeat: true,
+			flipX: true,
+			frames: [walk_l_0, walk_l_1],
+		},
+		walk_l: {
+			phase: 8,
+			repeat: true,
+			frames: [walk_l_0, walk_l_1],
+		},
+	},
+}

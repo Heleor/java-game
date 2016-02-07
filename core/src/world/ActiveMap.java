@@ -1,19 +1,17 @@
-package personal.game;
+package world;
 
-import personal.game.graphics.Spritesheet.Tile;
+import static personal.game.Constants.TILE_SIZE;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 
-public class TiledMap {
-	static final int TILE_SIZE = 16;
-	
+public class ActiveMap {
 	private int tileCols;
 	private int tileRows;
 	
-	private Tile[][] tiles;
+	private WorldTile[][] tiles;
 	
-	public TiledMap(int width, int height, Tile[][] tiles) {
+	public ActiveMap(int width, int height, WorldTile[][] tiles) {
 		this.tileCols = width;
 		this.tileRows = height;
 		this.tiles = tiles;
@@ -24,7 +22,7 @@ public class TiledMap {
 		
 		for (int i = 0; i < tileCols; i++) {
 			for (int j = 0; j < tileRows; j++) {
-				tiles[i][j].drawTo(map, i * TILE_SIZE, j * TILE_SIZE);
+				tiles[i][j].tile.drawTo(map, i * TILE_SIZE, j * TILE_SIZE);
 			}
 		}
 		

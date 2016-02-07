@@ -1,12 +1,14 @@
-package personal.game;
+package loaders;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import personal.game.TilesetLoader.RawTileset.RawTile;
+import loaders.TilesetLoader.RawTileset.RawTile;
 import personal.game.graphics.Spritesheet;
+import personal.game.graphics.Tileset;
 import personal.game.graphics.Spritesheet.Tile;
+import world.WorldTile;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -37,10 +39,10 @@ public class TilesetLoader {
 		Pixmap image = new Pixmap(Gdx.files.internal(raw.spritesheet.image));
 		Spritesheet sheet = new Spritesheet(image);
 		
-		Map<String, Tile> tiles = new HashMap<>();
+		Map<String, WorldTile> tiles = new HashMap<>();
 		for (Entry<String, RawTile> t : raw.tiles.entrySet()) {
 			Tile _t = sheet.get(t.getValue().c, t.getValue().r);
-			tiles.put(t.getKey(), _t);
+			tiles.put(t.getKey(), new WorldTile(_t));
 		}
 		
 		return new Tileset(tiles);

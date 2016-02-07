@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import static personal.game.Constants.TILE_SIZE;
+
 /**
  * Loads and parses a spritesheet.
  */
@@ -36,9 +38,6 @@ public class Spritesheet {
 	private static final int paddingX = 1;
 	private static final int paddingY = 1;
 	
-	private static final int tileWidth = 16;
-	private static final int tileHeight = 16;
-	
 	private static final int tileCols = 24;
 	private static final int tileRows = 25;
 	
@@ -52,8 +51,8 @@ public class Spritesheet {
 	private void populate() {
 		tiles = new Tile[tileCols][tileRows];
 		
-		int jumpX = tileWidth + paddingX;
-		int jumpY = tileHeight + paddingY;
+		int jumpX = TILE_SIZE + paddingX;
+		int jumpY = TILE_SIZE + paddingY;
 
 		for (int col = 0; col < tileCols; col++) {
 		for (int row = 0; row < tileRows; row++) {
@@ -61,8 +60,8 @@ public class Spritesheet {
 			int x = col * jumpX + paddingX;
 			int y = row * jumpY + paddingY;
 			
-			TextureRegion region = new TextureRegion(texture, x, y, tileWidth, tileHeight);
-			tiles[col][row] = new Tile(region, x,y,tileWidth,tileHeight);
+			TextureRegion region = new TextureRegion(texture, x, y, TILE_SIZE, TILE_SIZE);
+			tiles[col][row] = new Tile(region, x,y,TILE_SIZE,TILE_SIZE);
 		}}
 	}
 	

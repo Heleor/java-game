@@ -1,6 +1,9 @@
-package personal.game;
+package loaders;
 
-import personal.game.graphics.Spritesheet.Tile;
+import personal.game.graphics.Tileset;
+import world.ActiveMap;
+import world.PrototypeMap;
+import world.WorldTile;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -21,7 +24,7 @@ public class MapLoader {
 		String[][] tiles; // tiles[row][col]
 	}
 	
-	public static TiledMap load(FileHandle file) {
+	public static PrototypeMap load(FileHandle file) {
 		Json json = new Json();
 		RawMap raw = json.fromJson(RawMap.class, file);
 		
@@ -29,25 +32,25 @@ public class MapLoader {
 
 		// This will have to pivot, as we want row-major order in the file
 		// (for human readability) and column-major order in the code (for x/y confusion)
-		Tile[][] tiles = new Tile[raw.width][raw.height];
+		WorldTile[][] tiles = new WorldTile[raw.width][raw.height];
 		for (int row = 0; row < raw.height; row++) {
 			// If the row is not defined
 			if (raw.tiles.length <= row) {
 				for (int col = 0; col < raw.width; col++) {
-					tiles[col][row] = tileset.tiles.get(raw.base_tile);
+					tiles[col][row] = tileset.get(raw.base_tile);
 				}
 			} else {
 				for (int col = 0; col < raw.width; col++) {
 					if (raw.tiles[row].length <= col) {
-						tiles[col][row] = tileset.tiles.get(raw.base_tile);
+						tiles[col][row] = tileset.get(raw.base_tile);
 					} else {
 						String tilename = raw.tiles[row][col];
-						tiles[col][row] = tileset.tiles.get(tilename);						
+						tiles[col][row] = tileset.get(tilename);						
 					}
 				}				
 			}
 		}
 		
-		return new TiledMap(raw.width, raw.height, tiles);
+		return new PrototypeMap(raw.width, raw.height, tiles);
 	}
 }
