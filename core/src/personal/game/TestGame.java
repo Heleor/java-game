@@ -1,33 +1,24 @@
 package personal.game;
 
 import static personal.game.Constants.TILE_SIZE;
-import loaders.CharacterLoader;
-import loaders.MapLoader;
-import world.PrototypeMap;
-import character.Character;
+import world.World;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class TestGame extends ApplicationAdapter {
 	static final int FPS = 30;
 	static final float PERIOD = 1.0f / FPS;
 	
+	static final int VIEW_WIDTH = TILE_SIZE * 10; 
+	static final int VIEW_HEIGHT = TILE_SIZE * 8;
+
 	SpriteBatch batch;
 	
-	Texture img;
-	Character character;
-
-	int tileCols = 10;
-	int tileRows = 8;
-	
-	int VIEW_WIDTH = TILE_SIZE * tileCols;
-	int VIEW_HEIGHT = TILE_SIZE * tileRows;
-	
+	World world;
 	OrthographicCamera camera;
 	
 	@Override
@@ -38,23 +29,12 @@ public class TestGame extends ApplicationAdapter {
 		
 		batch = new SpriteBatch();
 		
-		PrototypeMap map = MapLoader.load(Gdx.files.internal("house.map.json"));
-		img = map.newMap().render();
-		
-		character = CharacterLoader.load(Gdx.files.internal("link.character.json"));
-		character.setAnimation("walk_r");
+		world = new World();
+		world.initialize("link", "house");
 	}
 	
 	public void update() {
-		character.update();
-		character.x++;
-		if (character.x > VIEW_WIDTH) {
-			character.x = -16;
-			character.y += 16;
-			if (character.y >= VIEW_HEIGHT) {
-				character.y = 0;
-			}
-		}
+		world.advance();
 	}
 	
 	float sumDT = 0;
@@ -80,8 +60,7 @@ public class TestGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
-		batch.draw(img,0,0,VIEW_WIDTH, VIEW_HEIGHT);
-		character.draw(batch);
+		world.render(batch);
 		batch.end();
 	}
 }
