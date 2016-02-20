@@ -9,6 +9,7 @@ import loaders.CharacterLoader.RawCharacter.RawAnimation;
 import loaders.CharacterLoader.RawCharacter.RawFrame;
 import personal.game.graphics.Animation;
 import personal.game.graphics.Spritesheet;
+import personal.game.graphics.Spritesheet.Tile;
 import character.Character;
 
 import com.badlogic.gdx.Gdx;
@@ -27,6 +28,8 @@ public class CharacterLoader {
 		
 		static class RawFrame {
 			int c, r;
+			boolean flipX = false;
+			boolean flipY = false;
 		}
 		
 		HashMap<String, RawFrame> frames;
@@ -34,8 +37,6 @@ public class CharacterLoader {
 		static class RawAnimation {
 			int phase = 1;
 			boolean repeat = false;
-			boolean flipX = false;
-			boolean flipY = false;
 			ArrayList<String> frames;
 		}
 		
@@ -55,11 +56,17 @@ public class CharacterLoader {
 			ArrayList<TextureRegion> frames = new ArrayList<>();
 			for (String f : a.getValue().frames) {
 				RawFrame _f = raw.frames.get(f);
-				frames.add(sheet.get(_f.c, _f.r).getRegion());
+				
+				Tile tile = sheet.get(_f.c, _f.r);
+				
+				TextureRegion region = new TextureRegion(tile.getRegion());
+				region.flip(_f.flipX, _f.flipY);
+				
+				frames.add(region);
 			}
 			animations.put(
 					a.getKey(), 
-					new Animation(frames, a.getValue().phase,  a.getValue().repeat, a.getValue().flipX, a.getValue().flipY));
+					new Animation(frames, a.getValue().phase,  a.getValue().repeat));
 		}
 		
 		return new Character(animations);

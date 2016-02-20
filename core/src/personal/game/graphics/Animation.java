@@ -19,14 +19,13 @@ public class Animation {
 	boolean started = false;
 	int frame = 0;
 	
-	public Animation(List<TextureRegion> frames, int phase, boolean repeat, boolean flipX, boolean flipY) {
+	public Animation(List<TextureRegion> frames, int phase, boolean repeat) {
 		this.phase = phase;
 		this.repeat = repeat;
 		
 		this.frames = new ArrayList<>();
 		for (TextureRegion r : frames) {
 			TextureRegion _r = new TextureRegion(r);
-			_r.flip(flipX, flipY);
 			this.frames.add(_r);
 		}
 		
