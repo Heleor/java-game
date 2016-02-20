@@ -3,21 +3,60 @@
 		image: "link_sprite_noborder.png",
 	},
 	frames: {
-		stand: {
-			c:4, r:0,
-		},
-		walk_l_0: {
-			c:2, r:0,
-		},
-		walk_l_1: {
-			c:3, r:0,
-		},
+		walk_d: { c:0, r:0 },
+		walk_u: { c:1, r:0 },
+		walk_l_0: { c:2, r:0 },
+		walk_l_1: { c:3, r:0 },
+		stand: { c:4, r:0 },
+		red: { c:5, r:0 },
+		
+		walk_shield_d_0: { c:0, r:1 },
+		walk_shield_d_1: { c:1, r:1 },
+		walk_shieldup_d_0: { c:2, r:1 },
+		walk_shieldup_d_1: { c:3, r:1 },
+		walk_mshieldup_d_0: { c:4, r:1 },
+		walk_mshieldup_d_1: { c:5, r:1 },
+		
+		walk_shield_u_0: { c:0, r:2 },
+		walk_shield_u_1: { c:1, r:2 },
+		walk_shieldup_u_0: { c:2, r:2 },
+		walk_shieldup_u_1: { c:3, r:2 },
+		
+		walk_shield_r_0: { c:0, r:3 },
+		walk_shield_r_1: { c:1, r:3 },
+		walk_mshield_r_0: { c:2, r:3 },
+		walk_mshield_r_1: { c:3, r:3 },
+		
+		walk_shieldup_l_0: { c:0, r:4 },
+		walk_shieldup_l_1: { c:1, r:4 },
+		walk_shieldup_r_0: { c:2, r:4 },
+		walk_shieldup_r_1: { c:3, r:4 },
+		
+		swim_d_0: { c:0, r:5 },
+		swim_d_1: { c:1, r:5 },
+		dive_0: { c:2, r:5 },
+		dive_1: { c:3, r:5 },
+		
+		swim_l_0: { c:0, r:6 },
+		swim_l_1: { c:1, r:6 },
+		side_swim_l_0: { c:2, r:6 },
+		side_swim_l_0: { c:3, r:6 },
+		
+		swim_u_0: { c:0, r:7 },
+		swim_u_1: { c:1, r:7 },
 	}
 	animations: {
 		stand: {
 			repeat: false,
 			frames: [stand],
 		},
+		
+		walk_u: {
+			phase:8,
+			repeat: true,
+			frames: [walk_u],
+		},
+		
 		walk_r: {
 			phase: 8,
 			repeat: true,

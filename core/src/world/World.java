@@ -42,8 +42,6 @@ public class World {
 		character.update();
 		character.x++;
 		
-		currentMap.drawPixel((int) character.x, (int) character.y);
-		
 		if (character.x > currentMap.getWidth()) {
 			character.x = -16;
 			character.y += 16;

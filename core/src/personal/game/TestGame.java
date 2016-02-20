@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class TestGame extends ApplicationAdapter {
-	static final int FPS = 30;
+	static final int FPS = 60;
 	static final float PERIOD = 1.0f / FPS;
 	
 	static final int VIEW_WIDTH = TILE_SIZE * 10; 
