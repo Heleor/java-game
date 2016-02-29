@@ -73,6 +73,11 @@
 			passable: false,
 		},
 		
+		base_grass: {
+			c: 4, r: 9,
+			passable: true,
+		},
+		
 		house_roof_blue: {
 			c: 8, r: 2,
 			passable: false,

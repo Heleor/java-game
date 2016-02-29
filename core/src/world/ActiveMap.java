@@ -2,10 +2,8 @@ package world;
 
 import static personal.game.Constants.TILE_SIZE;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Pixmap.Blending;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class ActiveMap {

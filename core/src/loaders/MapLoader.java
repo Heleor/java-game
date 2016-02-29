@@ -1,7 +1,8 @@
 package loaders;
 
+import java.util.HashMap;
+
 import personal.game.graphics.Tileset;
-import world.ActiveMap;
 import world.PrototypeMap;
 import world.WorldTile;
 
@@ -20,16 +21,30 @@ public class MapLoader {
 		int width;
 		int height;
 		
+		HashMap<String, String> aliases = null;
+		
 		String base_tile;
 		String[][] tiles; // tiles[row][col]
 	}
 	
-	public static PrototypeMap load(FileHandle file) {
+	private final RawMap raw;
+	private final Tileset tileset;
+	
+	private MapLoader(FileHandle file) {
 		Json json = new Json();
-		RawMap raw = json.fromJson(RawMap.class, file);
-		
-		Tileset tileset = TilesetLoader.load(Gdx.files.internal(raw.tileset.file));
-
+		this.raw = json.fromJson(RawMap.class, file);
+		this.tileset = TilesetLoader.load(Gdx.files.internal(raw.tileset.file));
+	}
+	
+	private WorldTile getTile(String key) {
+		if (raw.aliases.containsKey(key)) {
+			return getTile(raw.aliases.get(key));
+		}
+		WorldTile tile = tileset.get(key);
+		return tile != null ? tile : getTile(raw.base_tile);
+	}
+	
+	public PrototypeMap getMap() {
 		// This will have to pivot, as we want row-major order in the file
 		// (for human readability) and column-major order in the code (for x/y confusion)
 		WorldTile[][] tiles = new WorldTile[raw.width][raw.height];
@@ -37,20 +52,25 @@ public class MapLoader {
 			// If the row is not defined
 			if (raw.tiles.length <= row) {
 				for (int col = 0; col < raw.width; col++) {
-					tiles[col][row] = tileset.get(raw.base_tile);
+					tiles[col][row] = getTile(null);
 				}
 			} else {
 				for (int col = 0; col < raw.width; col++) {
 					if (raw.tiles[row].length <= col) {
-						tiles[col][row] = tileset.get(raw.base_tile);
+						tiles[col][row] = getTile(null);
 					} else {
 						String tilename = raw.tiles[row][col];
-						tiles[col][row] = tileset.get(tilename);						
+						tiles[col][row] = getTile(tilename);						
 					}
 				}				
 			}
 		}
 		
 		return new PrototypeMap(raw.width, raw.height, tiles);
+	}
+	
+	public static PrototypeMap load(FileHandle file) {
+		MapLoader loader = new MapLoader(file);
+		return loader.getMap();
 	}
 }

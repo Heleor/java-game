@@ -30,7 +30,7 @@ public class TestGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		
 		world = new World();
-		world.initialize("link", "house");
+		world.initialize("link", "test");
 	}
 	
 	public void update() {
