@@ -1,5 +1,7 @@
 package world;
 
+import static personal.game.Constants.TILE_SIZE;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,8 +13,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class World {
+	static final int VIEW_WIDTH = TILE_SIZE * 10; 
+	static final int VIEW_HEIGHT = TILE_SIZE * 8;
+	
 	Map<String, PrototypeMap> maps;
 	
+	TrackingCamera camera;
 	ActiveMap currentMap;
 	Character character;
 	
@@ -35,6 +41,9 @@ public class World {
 		
 		this.character = CharacterLoader.load(Gdx.files.internal(character + ".character.json"));
 		this.character.setAnimation("walk_r");
+		
+		this.camera = new TrackingCamera(VIEW_WIDTH, VIEW_HEIGHT);
+		camera.setArea(currentMap.getArea());
 	}
 	
 	// Moves the world one frame forward.
@@ -49,6 +58,13 @@ public class World {
 				character.y = 0;
 			}
 		}
+		
+		camera.setCenter(character.x, character.y);
+	}
+	
+	public void prerender(SpriteBatch batch) {
+		camera.update();
+		camera.position(batch);
 	}
 	
 	public void render(SpriteBatch batch) {

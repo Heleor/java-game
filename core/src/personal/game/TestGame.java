@@ -6,7 +6,6 @@ import world.World;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class TestGame extends ApplicationAdapter {
@@ -19,14 +18,9 @@ public class TestGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	
 	World world;
-	OrthographicCamera camera;
 	
 	@Override
 	public void create () {
-		camera = new OrthographicCamera(VIEW_WIDTH, VIEW_HEIGHT);
-		camera.position.set(VIEW_WIDTH / 2, VIEW_HEIGHT / 2, 0);
-		camera.update();
-		
 		batch = new SpriteBatch();
 		
 		world = new World();
@@ -55,9 +49,9 @@ public class TestGame extends ApplicationAdapter {
 		
 		Gdx.gl.glClearColor(1.0f, 0, 0, 1);
 
-		camera.update();
-		batch.setProjectionMatrix(camera.combined);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		world.prerender(batch);
 		
 		batch.begin();
 		world.render(batch);

@@ -5,6 +5,7 @@ import static personal.game.Constants.TILE_SIZE;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 public class ActiveMap {
 	private int tileCols;
@@ -30,6 +31,10 @@ public class ActiveMap {
 	
 	public int getHeight() {
 		return tileRows * TILE_SIZE;
+	}
+	
+	public Rectangle getArea() {
+		return new Rectangle(0,0,getWidth(), getHeight());
 	}
 	
 	public void render(SpriteBatch batch) {
