@@ -40,7 +40,9 @@ public class World {
 		currentMap = proto.newMap();
 		
 		this.character = CharacterLoader.load(Gdx.files.internal(character + ".character.json"));
-		this.character.setAnimation("walk_r");
+		this.character.setAnimation("stand");
+		this.character.x = currentMap.getWidth() / 2;
+		this.character.y = currentMap.getHeight() / 2;
 		
 		this.camera = new TrackingCamera(VIEW_WIDTH, VIEW_HEIGHT);
 		camera.setArea(currentMap.getArea());
@@ -49,17 +51,7 @@ public class World {
 	// Moves the world one frame forward.
 	public void advance() {
 		character.update();
-		character.x++;
-		
-		if (character.x > currentMap.getWidth()) {
-			character.x = -16;
-			character.y += 16;
-			if (character.y >= currentMap.getHeight()) {
-				character.y = 0;
-			}
-		}
-		
-		camera.setCenter(character.x, character.y);
+		camera.setCenter(character.x + TILE_SIZE / 2, character.y + TILE_SIZE / 2);
 	}
 	
 	public void prerender(SpriteBatch batch) {
