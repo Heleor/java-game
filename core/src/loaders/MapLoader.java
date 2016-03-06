@@ -37,7 +37,7 @@ public class MapLoader {
 	}
 	
 	private WorldTile getTile(String key) {
-		if (raw.aliases.containsKey(key)) {
+		if (raw.aliases != null && raw.aliases.containsKey(key)) {
 			return getTile(raw.aliases.get(key));
 		}
 		WorldTile tile = tileset.get(key);

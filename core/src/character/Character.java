@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Character {
 	final Map<String, Animation> animations;
 	
-	enum Direction { UP, DOWN, LEFT, RIGHT };
+	enum Direction { UP, DOWN, LEFT, RIGHT, NONE };
 	
 	Animation current;
 	Direction facing;
@@ -26,7 +26,7 @@ public class Character {
 		
 		x = 0;
 		y = 0;
-		facing = Direction.DOWN;
+		facing = Direction.NONE;
 	}
 	
 	public void changeAnimation(String animation) {
@@ -39,23 +39,15 @@ public class Character {
 	}
 	
 	public void update(InputFrame input) {
-		InputFrame prevInput = input.previous();
-		
 		// Shortcut methods.
-		boolean pl = prevInput.key(Input.Keys.LEFT);
 		boolean l = input.key(Input.Keys.LEFT);
-		boolean pr = prevInput.key(Input.Keys.RIGHT);
 		boolean r = input.key(Input.Keys.RIGHT);
-		boolean pu = prevInput.key(Input.Keys.UP);
 		boolean u = input.key(Input.Keys.UP);
-		boolean pd = prevInput.key(Input.Keys.DOWN);
 		boolean d = input.key(Input.Keys.DOWN);
 		
 		// Cancel out opposite presses.
 		if (l && r) { l = false; r = false; }
-		if (pl && pr) { pl = false; pr = false; }
 		if (u && d) { u = false; d = false; }
-		if (pu && pd) { pu = false; pd = false; }
 		
 		// Update positions based on current frame.
 		// ... This isn't even Java.

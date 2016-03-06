@@ -28,7 +28,7 @@ public class TestGame extends ApplicationAdapter {
 		
 		input = new InputBuffer();
 		world = new World();
-		world.initialize("link", "test");
+		world.initialize("link", "house");
 	}
 	
 	public void update() {
