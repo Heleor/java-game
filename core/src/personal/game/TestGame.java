@@ -1,6 +1,8 @@
 package personal.game;
 
 import static personal.game.Constants.TILE_SIZE;
+import personal.game.input.InputBuffer;
+import personal.game.input.InputFrame;
 import world.World;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -17,18 +19,21 @@ public class TestGame extends ApplicationAdapter {
 
 	SpriteBatch batch;
 	
+	InputBuffer input;
 	World world;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		
+		input = new InputBuffer();
 		world = new World();
 		world.initialize("link", "test");
 	}
 	
 	public void update() {
-		world.advance();
+		InputFrame frame = input.update();
+		world.advance(frame);
 	}
 	
 	float sumDT = 0;
@@ -45,6 +50,7 @@ public class TestGame extends ApplicationAdapter {
 
 	@Override
 	public void render() {
+		input.poll();
 		trackTime();
 		
 		Gdx.gl.glClearColor(1.0f, 0, 0, 1);

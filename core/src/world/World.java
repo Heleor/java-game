@@ -7,6 +7,7 @@ import java.util.Map;
 
 import loaders.CharacterLoader;
 import loaders.MapLoader;
+import personal.game.input.InputFrame;
 import character.Character;
 
 import com.badlogic.gdx.Gdx;
@@ -49,8 +50,8 @@ public class World {
 	}
 	
 	// Moves the world one frame forward.
-	public void advance() {
-		character.update();
+	public void advance(InputFrame input) {
+		character.update(input);
 		camera.setCenter(character.x + TILE_SIZE / 2, character.y + TILE_SIZE / 2);
 	}
 	

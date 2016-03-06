@@ -3,8 +3,8 @@
 		image: "link_sprite_noborder.png",
 	},
 	frames: {
-		walk_d: { c:0, r:0 },
-		walk_u: { c:1, r:0 },
+		walk_d_0: { c:0, r:0 }, walk_d_1: { c:0, r:0, flipX: true },
+		walk_u_0: { c:1, r:0 }, walk_u_1: { c:1, r:0, flipX: true },
 		walk_l_0: { c:2, r:0 }, walk_r_0: { c:2, r:0, flipX: true },
 		walk_l_1: { c:3, r:0 }, walk_r_1: { c:3, r:0, flipX: true },
 		stand: { c:4, r:0 },
@@ -54,7 +54,12 @@
 		walk_u: {
 			phase:8,
 			repeat: true,
-			frames: [walk_u],
+			frames: [walk_u_0, walk_u_1],
+		},
+		walk_d: {
+			phase:8,
+			repeat: true,
+			frames: [walk_d_0, walk_d_1],
 		},
 		
 		walk_r: {
