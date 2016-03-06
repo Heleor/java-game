@@ -5,6 +5,7 @@ import static personal.game.Constants.TILE_SIZE;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 public class ActiveMap {
@@ -51,5 +52,21 @@ public class ActiveMap {
 			}
 		}
 		texture = new Texture(pixmap);
+	}
+
+	public void renderCollision(ShapeRenderer shapes) {
+		for (int i = 0; i < tileCols; i++) {
+			for (int j = 0; j < tileRows; j++) {
+				WorldTile c = tiles[i][j];
+				if (!c.passable) {
+					shapes.setColor(1.0f, 0.0f, 0.0f, 0.5f);
+				} else if (c.slowing > 0) {
+					shapes.setColor(1.0f, 1.0f - (c.slowing / 4.0f), 0.0f, 0.5f);
+				} else {
+					continue;
+				}
+				shapes.rect(i * TILE_SIZE, (tileRows - (j + 1)) * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+			}
+		}
 	}
 }

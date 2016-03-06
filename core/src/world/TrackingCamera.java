@@ -1,7 +1,7 @@
 package world;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 
 public class TrackingCamera {
@@ -61,7 +61,7 @@ public class TrackingCamera {
 		camera.update();
 	}
 	
-	public void position(SpriteBatch batch) {
-		batch.setProjectionMatrix(camera.combined);
+	public Matrix4 matrix() {
+		return camera.combined;
 	}
 }

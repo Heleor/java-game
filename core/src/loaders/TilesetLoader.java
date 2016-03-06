@@ -25,7 +25,8 @@ public class TilesetLoader {
 		
 		static class RawTile {
 			int c, r;
-			boolean passable;
+			boolean passable = true;
+			int slowing = 0;
 		}
 		
 		HashMap<String, RawTile> tiles;
@@ -42,7 +43,10 @@ public class TilesetLoader {
 		Map<String, WorldTile> tiles = new HashMap<>();
 		for (Entry<String, RawTile> t : raw.tiles.entrySet()) {
 			Tile _t = sheet.get(t.getValue().c, t.getValue().r);
-			tiles.put(t.getKey(), new WorldTile(_t));
+			WorldTile wt = new WorldTile(_t);
+			wt.passable = t.getValue().passable;
+			wt.slowing = t.getValue().slowing;
+			tiles.put(t.getKey(), wt);
 		}
 		
 		return new Tileset(tiles);

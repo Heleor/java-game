@@ -5,47 +5,36 @@
 	tiles: {
 		grass_ul: {
 			c: 0, r: 5,
-			passable: true,
 		},
 		grass_u: {
 			c: 1, r: 5,
-			passable: true,
 		},
 		grass_ur: {
 			c: 2, r: 5,
-			passable: true,
 		},
 		grass_l: {
 			c: 0, r: 6,
-			passable: true,
 		},
 		grass: {
 			c: 1, r: 6,
-			passable: true,
 		},
 		grass_r: {
 			c: 2, r: 6,
-			passable: true,
 		},
 		grass_dl: {
 			c: 0, r: 7,
-			passable: true,
 		},
 		grass_d: {
 			c: 1, r: 7,
-			passable: true,
 		},
 		grass_dr: {
 			c: 2, r: 7,
-			passable: true,
 		},
 		grass_h: {
 			c: 17, r: 13,
-			passable: true,
 		},
 		path: {
 			c: 16, r: 13,
-			passable: true,
 		},
 		fence: {
 			c: 10, r: 13,
@@ -53,7 +42,7 @@
 		},
 		tallgrass: {
 			c: 13, r: 9,
-			passable: false,
+			slowing: 1,
 		},
 		
 		tree_ul: {

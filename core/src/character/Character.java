@@ -8,6 +8,8 @@ import personal.game.input.InputFrame;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 
 public class Character {
 	final Map<String, Animation> animations;
@@ -20,6 +22,8 @@ public class Character {
 	public float x;
 	public float y;
 	
+	Rectangle collision;
+	
 	public Character(Map<String, Animation> animations) {
 		this.animations = animations;
 		this.current = animations.entrySet().iterator().next().getValue();
@@ -27,6 +31,16 @@ public class Character {
 		x = 0;
 		y = 0;
 		facing = Direction.NONE;
+		collision = new Rectangle(x,y,16,8);
+		
+		updated();
+	}
+	
+	private void updated() {
+		current.update();
+		
+		collision.x = x;
+		collision.y = y;
 	}
 	
 	public void changeAnimation(String animation) {
@@ -87,11 +101,16 @@ public class Character {
 			current.start();
 		}
 		
-		current.update();
+		updated();
 	}
 	
 	public void draw(SpriteBatch batch) {
 		TextureRegion region = current.current();
 		batch.draw(region,x,y);
+	}
+
+	public void renderCollision(ShapeRenderer shapes) {
+		shapes.setColor(0.0f, 1.0f, 0.0f, 0.5f);
+		shapes.rect(collision.x,collision.y, collision.width, collision.height);
 	}
 }
