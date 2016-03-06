@@ -10,4 +10,15 @@ public class WorldTile {
 	public WorldTile(Tile tile) {
 		this.tile = tile;
 	}
+	
+	public CollisionArea collision() {
+		if (slowing == 0 && passable) {
+			return null;
+		}
+		
+		CollisionArea area = new CollisionArea();
+		area.passable = passable;
+		area.slow = slowing;
+		return area;
+	}
 }
