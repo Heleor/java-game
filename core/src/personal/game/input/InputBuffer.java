@@ -4,7 +4,7 @@ public class InputBuffer {
 	InputFrame current;
 	
 	public InputBuffer() {
-		current = new InputFrame(null);
+		current = new InputFrame(new InputFrame(null));
 	}
 	
 	public void poll() {

@@ -22,6 +22,10 @@ public class InputFrame {
 		}
 	}
 	
+	public InputFrame previous() {
+		return previous;
+	}
+	
 	public boolean key(int key) {
 		return keys[key];
 	}

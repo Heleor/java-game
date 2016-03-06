@@ -41,7 +41,7 @@ public class World {
 		currentMap = proto.newMap();
 		
 		this.character = CharacterLoader.load(Gdx.files.internal(character + ".character.json"));
-		this.character.setAnimation("stand");
+		this.character.changeAnimation("stand");
 		this.character.x = currentMap.getWidth() / 2;
 		this.character.y = currentMap.getHeight() / 2;
 		

@@ -32,8 +32,12 @@ public class Animation {
 		this.max = phase * frames.size() - 1;
 	}
 	
-	public void start() {
+	public void restart() {
 		frame = 0;
+		started = true;
+	}
+	
+	public void start() {
 		started = true;
 	}
 	
