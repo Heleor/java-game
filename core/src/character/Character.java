@@ -18,7 +18,15 @@ public class Character {
 	final World world;
 	final Map<String, Animation> animations;
 	
-	enum Direction { UP, DOWN, LEFT, RIGHT, NONE };
+	enum Direction { 
+		UP("u"), DOWN("d"), LEFT("l"), RIGHT("r"), NONE("?");
+		
+		public final String letter;
+		
+		Direction(String letter) {
+			this.letter = letter;
+		}
+	};
 	
 	Animation current;
 	Direction facing;
@@ -50,6 +58,9 @@ public class Character {
 	
 	public void changeAnimation(String animation) {
 		Animation next = animations.get(animation);
+		if (next == null) {
+			return;
+		}
 		if (current == next) {
 			return;
 		}
@@ -77,53 +88,38 @@ public class Character {
 		if (r) { if (collides(x+1, y)) { collides = true; } else { x++; }}
 		if (l) { if (collides(x-1, y)) { collides = true; } else { x--; }}
 		
+		boolean moving = u || d || r || l;
+		
 		// Animation changes if the previous direction is no longer
 		// being traveled *and* we're no longer moving.
-		if (!(u || d || r || l)) { 
-			// No longer moving.
-			current.stop();
+		boolean sameDir = false;
+		sameDir |= facing == Direction.UP && u;
+		sameDir |= facing == Direction.DOWN && d;
+		sameDir |= facing == Direction.LEFT && l;
+		sameDir |= facing == Direction.RIGHT && r;
+		
+		// If we were previously moving in a direction and we still are,
+		// we want to preserve it.
+		String direction = facing.letter;
+		if (!sameDir) {
+			if (u) { direction = "u"; facing = Direction.UP; } 
+			else if (d) { direction = "d"; facing = Direction.DOWN; }
+			else if (l) { direction = "l"; facing = Direction.LEFT; }
+			else if (r) { direction = "r"; facing = Direction.RIGHT; }
+		}
+		
+		String animation = null;
+		if (collides && moving) {
+			animation = "push";
 		} else {
-			boolean sameDir = false;
-			sameDir |= facing == Direction.UP && u;
-			sameDir |= facing == Direction.DOWN && d;
-			sameDir |= facing == Direction.LEFT && l;
-			sameDir |= facing == Direction.RIGHT && r;
-			
-			if (collides) {
-				if (!sameDir) {
-					if (u) {
-						facing = Direction.UP;
-						changeAnimation("walk_u");
-					} else if (d) {
-						facing = Direction.DOWN;
-						changeAnimation("walk_d");
-					} else if (l) {
-						facing = Direction.LEFT;
-						changeAnimation("walk_l");
-					} else if (r) {
-						facing = Direction.RIGHT;
-						changeAnimation("walk_r");
-					}
-				}
-			} else {
-				if (!sameDir) {
-					if (u) {
-						facing = Direction.UP;
-						changeAnimation("walk_u");
-					} else if (d) {
-						facing = Direction.DOWN;
-						changeAnimation("walk_d");
-					} else if (l) {
-						facing = Direction.LEFT;
-						changeAnimation("walk_l");
-					} else if (r) {
-						facing = Direction.RIGHT;
-						changeAnimation("walk_r");
-					}
-				}
-			}
-
+			animation = "walk";
+		}
+		
+		changeAnimation(animation + "_" + direction);
+		if (moving) {
 			current.start();
+		} else {
+			current.stop();
 		}
 		
 		updated();

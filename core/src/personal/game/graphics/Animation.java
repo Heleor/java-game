@@ -45,6 +45,10 @@ public class Animation {
 		started = false;
 	}
 	
+	public boolean started() {
+		return started;
+	}
+	
 	/**
 	 * Increments the animation frame by one. 
 	 * If repeat is set, will wrap around. If not set,

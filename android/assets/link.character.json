@@ -44,6 +44,11 @@
 		
 		swim_u_0: { c:0, r:7 },
 		swim_u_1: { c:1, r:7 },
+		
+		push_d_0: { c:0, r:15 }, push_d_1: { c:1, r:15 },
+		push_u_0: { c:0, r:17 }, push_u_1: { c:1, r:17 },
+		push_l_0: { c:0, r:16 }, push_r_0: { c:0, r:16, flipX: true },
+		push_l_1: { c:1, r:16 }, push_r_1: { c:1, r:16, flipX: true },
 	}
 	animations: {
 		stand: {
@@ -75,22 +80,22 @@
 		push_u: {
 			phase:8,
 			repeat: true,
-			frames: [walk_u_0, walk_u_1],
+			frames: [push_u_0, push_u_1],
 		},
 		push_d: {
 			phase:8,
 			repeat: true,
-			frames: [walk_d_0, walk_d_1],
+			frames: [push_d_0, push_d_1],
 		},
 		push_r: {
 			phase: 8,
 			repeat: true,
-			frames: [walk_r_0, walk_r_1],
+			frames: [push_r_0, push_r_1],
 		},
 		push_l: {
 			phase: 8,
 			repeat: true,
-			frames: [walk_l_0, walk_l_1],
+			frames: [push_l_0, push_l_1],
 		},
 	},
 }
