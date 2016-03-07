@@ -2,6 +2,7 @@ package world;
 
 import static personal.game.Constants.TILE_SIZE;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Pixmap;
@@ -70,5 +71,15 @@ public class ActiveMap {
 			}
 			shapes.rect(area.area.x, area.area.y, area.area.width, area.area.height);
 		}
+	}
+
+	public List<CollisionArea> collisions(Rectangle collision) {
+		List<CollisionArea> matches = new LinkedList<>();
+		for (CollisionArea area : collisions) {
+			if (area.area.overlaps(collision)) {
+				matches.add(area);
+			}
+		}
+		return matches;
 	}
 }

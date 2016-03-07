@@ -61,13 +61,33 @@
 			repeat: true,
 			frames: [walk_d_0, walk_d_1],
 		},
-		
 		walk_r: {
 			phase: 8,
 			repeat: true,
 			frames: [walk_r_0, walk_r_1],
 		},
 		walk_l: {
+			phase: 8,
+			repeat: true,
+			frames: [walk_l_0, walk_l_1],
+		},
+		
+		push_u: {
+			phase:8,
+			repeat: true,
+			frames: [walk_u_0, walk_u_1],
+		},
+		push_d: {
+			phase:8,
+			repeat: true,
+			frames: [walk_d_0, walk_d_1],
+		},
+		push_r: {
+			phase: 8,
+			repeat: true,
+			frames: [walk_r_0, walk_r_1],
+		},
+		push_l: {
 			phase: 8,
 			repeat: true,
 			frames: [walk_l_0, walk_l_1],

@@ -10,6 +10,7 @@ import loaders.CharacterLoader.RawCharacter.RawFrame;
 import personal.game.graphics.Animation;
 import personal.game.graphics.Spritesheet;
 import personal.game.graphics.Spritesheet.Tile;
+import world.World;
 import character.Character;
 
 import com.badlogic.gdx.Gdx;
@@ -43,7 +44,7 @@ public class CharacterLoader {
 		HashMap<String, RawAnimation> animations;
 	}
 	
-	public static Character load(FileHandle file) {
+	public static Character load(FileHandle file, World world) {
 		Json json = new Json();
 		RawCharacter raw = json.fromJson(RawCharacter.class, file);
 		
@@ -69,6 +70,6 @@ public class CharacterLoader {
 					new Animation(frames, a.getValue().phase,  a.getValue().repeat));
 		}
 		
-		return new Character(animations);
+		return new Character(world, animations);
 	}
 }

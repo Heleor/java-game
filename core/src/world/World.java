@@ -3,6 +3,7 @@ package world;
 import static personal.game.Constants.TILE_SIZE;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import loaders.CharacterLoader;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
 
 public class World {
 	static final int VIEW_WIDTH = TILE_SIZE * 10; 
@@ -48,10 +50,10 @@ public class World {
 		PrototypeMap proto = getMap(initialMap);
 		currentMap = proto.newMap();
 		
-		this.character = CharacterLoader.load(Gdx.files.internal(character + ".character.json"));
+		this.character = CharacterLoader.load(Gdx.files.internal(character + ".character.json"), this);
 		this.character.changeAnimation("stand");
 		this.character.x = currentMap.getWidth() / 2;
-		this.character.y = currentMap.getHeight() / 2;
+		this.character.y = TILE_SIZE * 3;
 		
 		this.camera = new TrackingCamera(VIEW_WIDTH, VIEW_HEIGHT);
 		camera.setArea(currentMap.getArea());
@@ -83,5 +85,9 @@ public class World {
 		currentMap.renderCollision(shapes);
 			
 		shapes.end();
+	}
+	
+	public List<CollisionArea> collisions(Rectangle collision) {
+		return currentMap.collisions(collision);
 	}
 }
