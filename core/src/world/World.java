@@ -53,7 +53,7 @@ public class World {
 		this.character = CharacterLoader.load(Gdx.files.internal(character + ".character.json"), this);
 		this.character.changeAnimation("stand");
 		this.character.x = currentMap.getWidth() / 2;
-		this.character.y = TILE_SIZE * 3;
+		this.character.y = TILE_SIZE * 2;
 		
 		this.camera = new TrackingCamera(VIEW_WIDTH, VIEW_HEIGHT);
 		camera.setArea(currentMap.getArea());

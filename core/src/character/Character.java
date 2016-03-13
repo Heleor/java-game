@@ -44,7 +44,7 @@ public class Character {
 		x = 0;
 		y = 0;
 		facing = Direction.NONE;
-		collision = new Rectangle(x+2,y,12,8);
+		collision = new Rectangle(x+3,y,10,8);
 		
 		updated();
 	}
@@ -127,7 +127,7 @@ public class Character {
 	
 	private boolean collides(float x, float y) {
 		Rectangle test = new Rectangle(collision);
-		test.x = x + 2; test.y = y;
+		test.x = x + 3; test.y = y;
 		List<CollisionArea> matches = world.collisions(test);
 		for (CollisionArea c : matches) {
 			if (!c.passable) {

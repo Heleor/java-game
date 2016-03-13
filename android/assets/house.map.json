@@ -4,7 +4,6 @@
 	},
 	width: 10,
 	height: 8,
-	base_tile: grass, // Hack.
 	tiles: [
 		[tree_dr, grass_l, grass_h, grass_h, grass_h, grass_h, grass_h, grass_h, grass_h, grass],
 		[grass_u,grass_r,fence,fence,fence,fence,fence,fence,fence,grass_l],
@@ -15,4 +14,7 @@
 		[grass_d,grass_dr,fence,fence,fence,path,fence,fence,fence,grass_l],
 		[path,path,path,path,path,path,grass_ul,grass_u,grass_u,grass],
 	],
+	connections: {
+		right: "field",
+	}
 }

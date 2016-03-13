@@ -80,6 +80,10 @@
 			passable:true,
 		},
 		
+		bush: {
+			c:13, r: 10,
+			passable:false,
+		},
 		
 		flowers: { // Animated in the future.
 			c: 16, r: 15,

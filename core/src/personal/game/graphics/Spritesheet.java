@@ -61,7 +61,7 @@ public class Spritesheet {
 			int y = row * jumpY + paddingY;
 			
 			TextureRegion region = new TextureRegion(texture, x, y, TILE_SIZE, TILE_SIZE);
-			tiles[col][row] = new Tile(region, x,y,TILE_SIZE,TILE_SIZE);
+			tiles[col][row] = new Tile(region,x,y,TILE_SIZE,TILE_SIZE);
 		}}
 	}
 	

@@ -23,8 +23,10 @@ public class MapLoader {
 		
 		HashMap<String, String> aliases = null;
 		
-		String base_tile;
+		String base_tile = null;
 		String[][] tiles; // tiles[row][col]
+		
+		HashMap<String, String> connections = null;
 	}
 	
 	private final RawMap raw;
