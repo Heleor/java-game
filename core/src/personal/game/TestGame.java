@@ -40,6 +40,10 @@ public class TestGame extends ApplicationAdapter {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
 			showCollisions = !showCollisions;
 		}
+		
+		if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
+			world.transitionTo("house", Direction.RIGHT);
+		}
 	}
 	
 	float sumDT = 0;

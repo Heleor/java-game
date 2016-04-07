@@ -36,9 +36,6 @@ public class TrackingCamera {
 	}
 	
 	public void setCenter(float x, float y) {
-		this.x = x;
-		this.y = y;
-		
 		float newX = x;
 		float newY = y;
 		
@@ -54,7 +51,14 @@ public class TrackingCamera {
 			newY = bounds.y + bounds.height;
 		}
 		
+		this.x = newX;
+		this.y = newY;
+		
 		camera.position.set(newX,newY,0);
+	}
+	
+	public void setRawPosition(float x, float y) {
+		camera.position.set(x,y,0);
 	}
 	
 	public void update() {

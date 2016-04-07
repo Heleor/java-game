@@ -21,6 +21,8 @@ public class ActiveMap {
 	private Pixmap pixmap;
 	private Texture texture;
 	
+	private List<Connection> connections;
+	
 	public ActiveMap(int width, int height, 
 			WorldTile[][] tiles, List<CollisionArea> collisions) {
 		this.tileCols = width;
@@ -44,8 +46,12 @@ public class ActiveMap {
 		return new Rectangle(0,0,getWidth(), getHeight());
 	}
 	
+	public void render(SpriteBatch batch, float xOff, float yOff) {
+		batch.draw(texture, xOff,yOff, getWidth(), getHeight());
+	}
+	
 	public void render(SpriteBatch batch) {
-		batch.draw(texture, 0,0, getWidth(), getHeight());
+		render(batch, 0, 0);
 	}
 	
 	/**

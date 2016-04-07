@@ -8,6 +8,7 @@ import java.util.Map;
 
 import loaders.CharacterLoader;
 import loaders.MapLoader;
+import personal.game.Direction;
 import personal.game.input.InputFrame;
 import character.Character;
 
@@ -31,19 +32,24 @@ public class World {
 	ActiveMap currentMap;
 	Character character;
 	
+	Transition transitioning;
+	
 	public World() {
 		this.maps = new HashMap<>();
 		this.batch = new SpriteBatch();
 		this.shapes = new ShapeRenderer();
 	}
 	
-	private PrototypeMap getMap(String name) {
-		if (maps.containsKey(name)) {
-			return maps.get(name);
+	private void preloadMap(String name) {
+		if (!maps.containsKey(name)) {
+			PrototypeMap map = MapLoader.load(Gdx.files.internal(name + ".map.json"));
+			maps.put(name, map);
 		}
-		PrototypeMap map = MapLoader.load(Gdx.files.internal(name + ".map.json"));
-		maps.put(name, map);
-		return map;
+	}
+	
+	private PrototypeMap getMap(String name) {
+		preloadMap(name);
+		return maps.get(name);
 	}
 	
 	public void initialize(String character, String initialMap) {
@@ -59,11 +65,74 @@ public class World {
 		camera.setArea(currentMap.getArea());
 	}
 	
+	public void transitionTo(String newMap, Direction scrollDirection) {
+		Transition transition = new Transition();
+		transition.nextMap = getMap(newMap).newMap();
+		
+		transition.playerStartX = character.x;
+		transition.playerStartY = character.y;
+		transition.playerEndX = character.x;
+		transition.playerEndY = character.y;
+		
+		transition.cameraStartX = camera.x;
+		transition.cameraStartY = camera.y;
+		transition.cameraEndX = camera.x;
+		transition.cameraEndY = camera.y;
+		
+		if (scrollDirection == Direction.RIGHT) {
+			transition.playerEndX += TILE_SIZE;
+			transition.cameraEndX += currentMap.getWidth();
+			
+			transition.endFrame = (int) (transition.cameraEndX - transition.cameraStartX) / 4;
+			transition.mapOffsetX = currentMap.getWidth();
+			transition.mapOffsetY = 0;
+		} else if (scrollDirection == Direction.LEFT) {
+			transition.playerEndX -= TILE_SIZE;
+			transition.cameraEndX -= currentMap.getWidth();
+			
+			transition.endFrame = (int) (transition.cameraStartX - transition.cameraEndX) / 4;
+			transition.mapOffsetX = -currentMap.getWidth();
+			transition.mapOffsetY = 0;
+		} else if (scrollDirection == Direction.UP) {
+			transition.playerEndY += TILE_SIZE;
+			transition.cameraEndY += currentMap.getHeight();
+			
+			transition.endFrame = (int) (transition.cameraEndY - transition.cameraStartY) / 4;
+			transition.mapOffsetX = 0;
+			transition.mapOffsetY = currentMap.getHeight();
+		} else if (scrollDirection == Direction.DOWN) {
+			transition.playerEndY -= TILE_SIZE;
+			transition.cameraEndY -= currentMap.getHeight();
+			
+			transition.endFrame = (int) (transition.cameraStartY - transition.cameraEndY) / 4;
+			
+			transition.mapOffsetX = 0;
+			transition.mapOffsetY = -currentMap.getHeight();
+		}
+		
+		transition.currentFrame = 0;
+		
+		transitioning = transition;
+	}
+	
 	// Moves the world one frame forward.
 	public void advance(InputFrame input) {
-		character.update(input);
-		camera.setCenter(character.x + TILE_SIZE / 2, character.y + TILE_SIZE / 2);
-		camera.update();
+		if (transitioning != null) {
+			transitioning.currentFrame++;
+			
+			transitioning.updateCamera(camera);
+			transitioning.updateCharacter(character);
+			
+			if (transitioning.currentFrame == transitioning.endFrame) {
+				currentMap = transitioning.nextMap;
+				transitioning = null;
+			}
+		} else {
+			character.update(input);
+			
+			camera.setCenter(character.x + TILE_SIZE / 2, character.y + TILE_SIZE / 2);
+			camera.update();
+		}
 	}
 	
 	public void render() {
@@ -71,6 +140,9 @@ public class World {
 		
 		batch.begin();
 		currentMap.render(batch);
+		if (transitioning != null) {
+			transitioning.nextMap.render(batch, transitioning.mapOffsetX, transitioning.mapOffsetY);
+		}
 		character.draw(batch);
 		batch.end();
 	}

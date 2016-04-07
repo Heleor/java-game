@@ -1,8 +1,11 @@
 package character;
 
+import static personal.game.Constants.TILE_SIZE;
+
 import java.util.List;
 import java.util.Map;
 
+import personal.game.Direction;
 import personal.game.graphics.Animation;
 import personal.game.input.InputFrame;
 import world.CollisionArea;
@@ -15,18 +18,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Character {
+	
 	final World world;
 	final Map<String, Animation> animations;
-	
-	enum Direction { 
-		UP("u"), DOWN("d"), LEFT("l"), RIGHT("r"), NONE("?");
-		
-		public final String letter;
-		
-		Direction(String letter) {
-			this.letter = letter;
-		}
-	};
 	
 	Animation current;
 	Direction facing;
@@ -34,7 +28,8 @@ public class Character {
 	public float x;
 	public float y;
 	
-	Rectangle collision;
+	public Rectangle collision;
+	public Rectangle fullBounds;
 	
 	public Character(World world, Map<String, Animation> animations) {
 		this.world = world;
@@ -45,15 +40,18 @@ public class Character {
 		y = 0;
 		facing = Direction.NONE;
 		collision = new Rectangle(x+3,y,10,8);
+		fullBounds = new Rectangle(x,y,TILE_SIZE, TILE_SIZE);
 		
 		updated();
 	}
 	
-	private void updated() {
+	public void updated() {
 		current.update();
 		
 		collision.x = x + 2;
 		collision.y = y;
+		fullBounds.x = x;
+		fullBounds.y = y;
 	}
 	
 	public void changeAnimation(String animation) {
