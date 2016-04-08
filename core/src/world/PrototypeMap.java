@@ -2,10 +2,11 @@ package world;
 
 import static personal.game.Constants.TILE_SIZE;
 
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import personal.game.Direction;
 
 import com.badlogic.gdx.math.Rectangle;
 
@@ -13,13 +14,18 @@ public class PrototypeMap {
 	final int cols;
 	final int rows;
 	
+	final World world;
 	final WorldTile[][] tiles; // tiles[col][row]
 	final List<CollisionArea> collisions;
-	final Map<Connection, String> connections;
+	final Map<Direction, String> connections;
 	
-	public PrototypeMap(int cols, int rows, 
+	public PrototypeMap(
+			World world,
+			int cols, int rows, 
 			WorldTile[][] tiles, 
-			Map<Connection, String> connections) {
+			Map<Direction, String> connections) {
+		this.world = world;
+		
 		this.cols = cols;
 		this.rows = rows;
 		this.tiles = tiles;
@@ -43,10 +49,6 @@ public class PrototypeMap {
 	}
 	
 	public ActiveMap newMap() {
-		return new ActiveMap(cols, rows, tiles, collisions);
-	}
-
-	public Collection<String> getConnections() {
-		return connections.values();
+		return new ActiveMap(world, cols, rows, tiles, collisions, connections);
 	}
 }

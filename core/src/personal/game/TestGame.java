@@ -41,8 +41,8 @@ public class TestGame extends ApplicationAdapter {
 			showCollisions = !showCollisions;
 		}
 		
-		if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
-			world.transitionTo("house", Direction.RIGHT);
+		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+			world.resetPosition();
 		}
 	}
 	

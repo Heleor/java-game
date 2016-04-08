@@ -2,13 +2,11 @@ package character;
 
 import static personal.game.Constants.TILE_SIZE;
 
-import java.util.List;
 import java.util.Map;
 
 import personal.game.Direction;
 import personal.game.graphics.Animation;
 import personal.game.input.InputFrame;
-import world.CollisionArea;
 import world.World;
 
 import com.badlogic.gdx.Input;
@@ -28,6 +26,8 @@ public class Character {
 	public float x;
 	public float y;
 	
+	public int moveFrame;
+	
 	public Rectangle collision;
 	public Rectangle fullBounds;
 	
@@ -38,6 +38,7 @@ public class Character {
 		
 		x = 0;
 		y = 0;
+		moveFrame = 0;
 		facing = Direction.NONE;
 		collision = new Rectangle(x+3,y,10,8);
 		fullBounds = new Rectangle(x,y,TILE_SIZE, TILE_SIZE);
@@ -81,10 +82,10 @@ public class Character {
 
 		// Update positions based on current frame.
 		// ... This isn't even Java.
-		if (u) { if (collides(x, y+1)) { collides = true; } else { y++; }}
-		if (d) { if (collides(x, y-1)) { collides = true; } else { y--; }}
-		if (r) { if (collides(x+1, y)) { collides = true; } else { x++; }}
-		if (l) { if (collides(x-1, y)) { collides = true; } else { x--; }}
+		if (u) { if (!world.tryMoving(x, y+1)) { collides = true; } else { y++; }}
+		if (d) { if (!world.tryMoving(x, y-1)) { collides = true; } else { y--; }}
+		if (r) { if (!world.tryMoving(x+1, y)) { collides = true; } else { x++; }}
+		if (l) { if (!world.tryMoving(x-1, y)) { collides = true; } else { x--; }}
 		
 		boolean moving = u || d || r || l;
 		
@@ -107,7 +108,7 @@ public class Character {
 		}
 		
 		String animation = null;
-		if (collides && moving) {
+		if (collides && !world.frozen() && moving) {
 			animation = "push";
 		} else {
 			animation = "walk";
@@ -115,24 +116,14 @@ public class Character {
 		
 		changeAnimation(animation + "_" + direction);
 		if (moving) {
+			moveFrame++;
 			current.start();
 		} else {
+			moveFrame = 0;
 			current.stop();
 		}
 		
 		updated();
-	}
-	
-	private boolean collides(float x, float y) {
-		Rectangle test = new Rectangle(collision);
-		test.x = x + 3; test.y = y;
-		List<CollisionArea> matches = world.collisions(test);
-		for (CollisionArea c : matches) {
-			if (!c.passable) {
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	public void draw(SpriteBatch batch) {

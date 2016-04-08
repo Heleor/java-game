@@ -58,6 +58,9 @@ public class TrackingCamera {
 	}
 	
 	public void setRawPosition(float x, float y) {
+		this.x = x;
+		this.y = y;
+		
 		camera.position.set(x,y,0);
 	}
 	

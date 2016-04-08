@@ -14,7 +14,7 @@
 		[grass_d,grass_dr,fence,fence,fence,path,fence,fence,fence,grass_l],
 		[path,path,path,path,path,path,grass_ul,grass_u,grass_u,grass],
 	],
-	connections: [
-		{ type: "edge", edge: "right", map: "field" },
-	]
+	connections: {
+		RIGHT: field,
+	},
 }

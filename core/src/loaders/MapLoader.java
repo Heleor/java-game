@@ -1,19 +1,17 @@
 package loaders;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
-import loaders.MapLoader.RawMap.RawConnection;
-import personal.game.Constants;
+import personal.game.Direction;
 import personal.game.graphics.Tileset;
-import world.Connection;
 import world.PrototypeMap;
+import world.World;
 import world.WorldTile;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Json;
 
 public class MapLoader {
@@ -32,22 +30,18 @@ public class MapLoader {
 		String base_tile = null;
 		String[][] tiles; // tiles[row][col]
 		
-		static class RawConnection {
-			String type;
-			String map;
-			String edge = null;
-		}
-		
-		ArrayList<RawConnection> connections = null;
+		HashMap<String, String> connections = null;
 	}
 	
+	private final World world;
 	private final RawMap raw;
 	private final Tileset tileset;
 	
-	private MapLoader(FileHandle file) {
+	private MapLoader(World world, FileHandle file) {
 		Json json = new Json();
 		this.raw = json.fromJson(RawMap.class, file);
 		this.tileset = TilesetLoader.load(Gdx.files.internal(raw.tileset.file));
+		this.world = world;
 	}
 	
 	private WorldTile getTile(String key) {
@@ -80,45 +74,18 @@ public class MapLoader {
 			}
 		}
 		
-		Map<Connection, String> connections = new HashMap<>();
+		Map<Direction, String> connections = new HashMap<>();
 		if (raw.connections != null) {
-			for (RawConnection c : raw.connections) {
-				if (c.type.equals("edge")) {
-					Rectangle rectangle = null;
-					switch (c.edge) {
-					case "left":
-						rectangle = new Rectangle(
-								-5,0,
-								5,raw.height * Constants.TILE_SIZE);
-						break;
-					case "right":
-						rectangle = new Rectangle(
-								raw.width * Constants.TILE_SIZE,0,
-								5,raw.height * Constants.TILE_SIZE);
-						break;
-					case "top":
-						rectangle = new Rectangle(
-								0, raw.height * Constants.TILE_SIZE,
-								raw.width * Constants.TILE_SIZE, 5);
-						break;
-					case "bottom":
-						rectangle = new Rectangle(
-								0, -5,
-								raw.width * Constants.TILE_SIZE, 5);
-						break;
-					}
-					
-					//Connection connection = new Connection(rectangle);
-					//connections.put(connection, c.map);
-				}
+			for (Entry<String, String> i : raw.connections.entrySet()) {
+				connections.put(Direction.valueOf(i.getKey()), i.getValue());
 			}
 		}
 		
-		return new PrototypeMap(raw.width, raw.height, tiles, connections);
+		return new PrototypeMap(world, raw.width, raw.height, tiles, connections);
 	}
 	
-	public static PrototypeMap load(FileHandle file) {
-		MapLoader loader = new MapLoader(file);
+	public static PrototypeMap load(World world, FileHandle file) {
+		MapLoader loader = new MapLoader(world, file);
 		return loader.getMap();
 	}
 }

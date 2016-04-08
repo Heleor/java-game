@@ -42,7 +42,7 @@ public class World {
 	
 	private void preloadMap(String name) {
 		if (!maps.containsKey(name)) {
-			PrototypeMap map = MapLoader.load(Gdx.files.internal(name + ".map.json"));
+			PrototypeMap map = MapLoader.load(this, Gdx.files.internal(name + ".map.json"));
 			maps.put(name, map);
 		}
 	}
@@ -115,6 +115,45 @@ public class World {
 		transitioning = transition;
 	}
 	
+	// Returns true if moving there is a success, false if something is blocked.
+	// Can be called more than once a frame, but generally only twice.
+	public boolean tryMoving(float x, float y) {
+		// Object collision
+		Rectangle test = new Rectangle(character.collision);
+		test.x = x + 3; test.y = y;
+		
+		List<CollisionArea> matches = currentMap.collisions(test);
+		for (CollisionArea c : matches) {
+			// If impassable don't move.
+			if (!c.passable) {
+				return false;
+			}
+		}
+		
+		// Map collision
+		if (y + TILE_SIZE > currentMap.getHeight()) {
+			currentMap.transition(Direction.UP);
+			return false;
+		} 
+		
+		if (y < 0) {
+			currentMap.transition(Direction.DOWN);
+			return false;
+		}
+		
+		if (x + TILE_SIZE > currentMap.getWidth()) {
+			currentMap.transition(Direction.RIGHT);
+			return false;
+		}
+		
+		if (x < 0) {
+			currentMap.transition(Direction.LEFT);
+			return false;
+		}
+		
+		return true;
+	}
+	
 	// Moves the world one frame forward.
 	public void advance(InputFrame input) {
 		if (transitioning != null) {
@@ -125,6 +164,7 @@ public class World {
 			
 			if (transitioning.currentFrame == transitioning.endFrame) {
 				currentMap = transitioning.nextMap;
+				camera.setArea(currentMap.getArea());
 				transitioning = null;
 			}
 		} else {
@@ -158,8 +198,14 @@ public class World {
 			
 		shapes.end();
 	}
-	
-	public List<CollisionArea> collisions(Rectangle collision) {
-		return currentMap.collisions(collision);
+
+	public boolean frozen() {
+		return transitioning != null;
+	}
+
+	public void resetPosition() {
+		this.character.changeAnimation("stand");
+		this.character.x = currentMap.getWidth() / 2;
+		this.character.y = TILE_SIZE * 2;
 	}
 }

@@ -4,6 +4,9 @@ import static personal.game.Constants.TILE_SIZE;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
+import personal.game.Direction;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,14 +24,19 @@ public class ActiveMap {
 	private Pixmap pixmap;
 	private Texture texture;
 	
-	private List<Connection> connections;
+	private World world;
+	private Map<Direction, String> connections;
 	
-	public ActiveMap(int width, int height, 
-			WorldTile[][] tiles, List<CollisionArea> collisions) {
+	public ActiveMap(World world, int width, int height, 
+			WorldTile[][] tiles, List<CollisionArea> collisions,
+			Map<Direction, String> connections) {
+		this.world = world;
+		
 		this.tileCols = width;
 		this.tileRows = height;
 		this.tiles = tiles;
 		this.collisions = collisions;
+		this.connections = connections;
 		
 		this.pixmap = new Pixmap(tileCols * TILE_SIZE, tileRows * TILE_SIZE, Pixmap.Format.RGBA8888);
 		draw();
@@ -87,5 +95,11 @@ public class ActiveMap {
 			}
 		}
 		return matches;
+	}
+
+	public void transition(Direction direction) {
+		if (connections.containsKey(direction)) {
+			world.transitionTo(connections.get(direction), direction);
+		}
 	}
 }
