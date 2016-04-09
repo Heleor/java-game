@@ -1,17 +1,14 @@
-package editor;
+package editor.tileset;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -19,54 +16,28 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
+import editor.Constants;
+
 public class TilesetEditor extends JFrame {
-	private static final String DEFAULT_DIR = "C:\\programming\\game2\\java-game\\android\\assets";
 	private static final String TILESET_EXT = ".tileset.json";
 	
 	private static final int TILE_SIZE = 16;
 	private static final int WIDTH = 640;
 	private static final int HEIGHT = 480;
 	
-	class Tile {
-		JLabel label;
-	}
-	
-	private List<Tile> tiles;
-	private JPanel tileList;
-	private JPanel tileInfo;
-	
-	private JPanel spritesheet;
-	
-	private Tile current = null;
-	
-	private void generateTileList() {
-		tileList = new JPanel();
-		tileList.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT / 2));
-		tileList.setBackground(Color.RED);
-	}
-	
-	private void generateTileInfo() {
-		tileInfo = new JPanel();
-		tileInfo.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT / 2));
-		tileInfo.setBackground(Color.BLUE);
-	}
+	SpritesheetChooser spritesheet;
+	TileList tileList;
+	TileProperties tileProperties;
 	
 	private JPanel generateLeftArea() {
-		generateTileList();
-		generateTileInfo();
+		tileList = new TileList();
+		tileProperties = new TileProperties();
 		
 		JPanel leftArea = new JPanel();
 		leftArea.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
 		leftArea.add(tileList, BorderLayout.PAGE_START);
-		leftArea.add(tileInfo, BorderLayout.PAGE_END);
+		leftArea.add(tileProperties, BorderLayout.PAGE_END);
 		return leftArea;
-	}
-	
-	private JPanel generateRightArea() {
-		spritesheet = new JPanel();
-		spritesheet.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
-		spritesheet.setBackground(Color.GREEN);
-		return spritesheet;
 	}
 	
 	boolean unsaved = false;
@@ -167,7 +138,7 @@ public class TilesetEditor extends JFrame {
 	
 	public TilesetEditor() {
 		setTitle("Tileset editor");
-		setSize(WIDTH, HEIGHT);
+		setSize(WIDTH, HEIGHT + 20);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		JPanel content = new JPanel(new BorderLayout());
@@ -176,10 +147,12 @@ public class TilesetEditor extends JFrame {
 		setJMenuBar(generateMenu());
 		
 		add(generateLeftArea(), BorderLayout.LINE_START);
-		add(generateRightArea(), BorderLayout.LINE_END);
+		
+		spritesheet = new SpritesheetChooser();
+		add(spritesheet, BorderLayout.LINE_END);
 		
 		fc = new JFileChooser();
-		fc.setCurrentDirectory(new File(DEFAULT_DIR));
+		fc.setCurrentDirectory(new File(Constants.DEFAULT_DIR));
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fc.setFileFilter(new FileFilter() {
 			@Override
